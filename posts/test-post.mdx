@@ -1,7 +1,170 @@
 ---
-title: Design critiques at Figma
-description: "Consider that for a moment: everything we see around us is assumed to have had a cause and is contingent upon."
-date: Jan 2 2021
+title: vscode-pets Pull Request
+description: "Information about my Pull Request regarding the vscode-pets extension."
+date: February 23 2022
 ---
 
-This is an example post. There's another one [here](/posts/example-post).
+Hello all, to my first Blog Post! Today my first Blog Post is regarding my recent contributions to the vscode-pets extension.
+I love this extension as it gives the functionality to show pets in your browser, as well as interacting with them.
+As I have some experience developing vscode extensions I saw an opportunity to help contribute to this extension.
+After extensive use of the extension, I noticed that the reset pets command was not working and spurred on by a recent issue
+regarding an [issue](https://github.com/tonybaloney/vscode-pets/issues/96) of the same category. I became enthralled to contribute
+and fix this issue.
+
+First I overridden my recent change of creating a status bar to help create a pet easier, in order to add the functionality of
+a pet playground being created on the use of the command. I did this with a Status Bar Object which I updated to specific commands
+and its tooltip was changed. The code is below.
+
+I created two status bar items with help of the vscode API
+
+```
+let petPlaygroundStatusBar : vscode.StatusBarItem;
+let spawnPetStatusBar : vscode.StatusBarItem;
+```
+
+Then I assigned different commands to the status bar and updated them regularly
+
+```
+petPlaygroundStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+petPlaygroundStatusBar.command = 'vscode-pets.start';
+context.subscriptions.push(petPlaygroundStatusBar);
+
+spawnPetStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+spawnPetStatusBar.command = 'vscode-pets.spawn-pet';
+context.subscriptions.push(spawnPetStatusBar);
+context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(updateStatusBar));
+context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection(updateStatusBar));
+context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(updateExtensionPositionContext));
+```
+
+Then I displayed text on the Status Bar with help from [Anthony Shaw](https://github.com/tonybaloney/), whom found a squirrel image for the Tooltip
+within the vscode API.
+
+```
+function updateStatusBar(): void {
+    petsStatusBar.text = `$(squirrel)`;
+	petsStatusBar.tooltip = "Create Pet Playground";
+	petsStatusBar.show();
+	spawnPetStatusBar.text = `$(squirrel)`;
+	spawnPetStatusBar.tooltip = "Spawn Pet";
+	spawnPetStatusBar.show();
+}
+```
+
+For the Final Issue I tackled within the Pull Request, I chose to fix the broken reset-pets command and this was quite a challenge.
+For some reason the webview was not receiving the post and after countless hours of debugging chose to remove everything associated
+with the command and rewrite the webview post message.
+
+I created two webview posts that equate to the following
+
+```
+public resetPets() {
+    this.updatePetColor(this.petColor());
+    this.updatePetType(this.petType());
+    this.updatePetSize(this.petSize());
+    this.update();
+    this.getWebview().postMessage({ command: 'reset-pet' });
+}
+
+public removePet(spec: PetSpecification): void {
+    this.getWebview().postMessage({
+        command: 'remove-pet',
+        spec,
+    });
+}
+```
+
+The webview received this post and that meant I could continue with the Pull Request.
+I amended the switch statement to loop through every pet and remove everything associated
+with that specific pet.
+
+```
+case 'reset-pet':
+    allPets.pets().forEach((pet) => {
+        pet.el.remove();
+        pet.collision.remove();
+    });
+    allPets.reset();
+    allPets.push(
+        addPetToPanel(
+            petType,
+            basePetUri,
+            petColor,
+            petSize,
+            randomStartPosition(),
+            floor,
+            floor,
+            undefined,
+        ),
+    );
+    petCounter = 1;
+    saveState();
+    break;
+```
+
+This code fixed the Issue but alas another issue arose. Whenever you used the reset pet command, the new pet state
+was not saved meaning that the reset-pet command was rendered useless when you reset the editor.
+This issue was very difficult to implement compared to the easier fix of the reset-pet command.
+
+I combatted this issue by when creating a new PetPanel, it fetches pets from saved memory and incorporates them into the scene.
+
+```
+const spec = PetSpecification.fromConfiguration();
+PetPanel.createOrShow(
+    context.extensionUri,
+    context.extensionPath,
+    spec.color,
+    spec.type,
+    spec.size,
+    getConfiguredTheme(),
+    getConfiguredThemeKind(),
+);
+if (PetPanel.currentPanel) {
+    var collection = PetSpecification.collectionFromMemento(
+        context,
+        getConfiguredSize(),
+    );
+    collection.forEach((item) => {
+        PetPanel.currentPanel!.spawnPet(item);
+    });
+```
+
+And then pushing the empty pet array when using the reset-pet command.
+
+```
+collection.push(spec);
+storeCollectionAsMemento(context, collection);
+```
+
+And for the last of the code fetching the pets from memory when running the vscode-pets.spawn-pet command.
+
+```
+{
+    webviewViewProvider.resetPets();
+    var collection = PetSpecification.collectionFromMemento(
+        context,
+        getConfiguredSize(),
+    );
+    collection.splice(0, collection.length);
+    storeCollectionAsMemento(context, collection);
+} else if (PetPanel.currentPanel) {
+    PetPanel.currentPanel.resetPets();
+    var collection = PetSpecification.collectionFromMemento(
+        context,
+        getConfiguredSize(),
+    );
+    collection.splice(0, collection.length);
+    storeCollectionAsMemento(context, collection);
+}
+```
+
+With the last of this latter code, the issue was fixed.
+I submitted a Pull Request which you can check out [here](https://github.com/tonybaloney/vscode-pets/pull/93)
+and this code was merged and if you install the latest version of vscode-pets. Version 1.10.0, you will see
+these changed incorporated into the extension!
+
+Thank you for reading my first blog post expect many more to come!
+
+Thank you for reading
+
+Harry
