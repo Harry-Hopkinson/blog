@@ -19,22 +19,16 @@
         "compile": "tsc"
     },
     "dependencies": {
-        "@chakra-ui/react": "^1.8.5",
-        "@emotion/react": "^11.8.1",
-        "@emotion/styled": "^11.8.1",
         "@mapbox/rehype-prism": "^0.8.0",
         "@tailwindcss/typography": "^0.5.0",
         "classnames": "^2.3.1",
-        "emotion": "^11.0.0",
-        "framer-motion": "^6.2.8",
         "gray-matter": "^4.0.2",
         "next": "latest",
         "next-mdx-remote": "^3.0.1",
         "next-remote-watch": "1.0.0",
         "prismjs": "^1.25.0",
         "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-icons": "^4.3.1"
+        "react-dom": "^17.0.2"
     },
     "devDependencies": {
         "@types/node": "^17.0.21",
