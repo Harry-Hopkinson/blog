@@ -1,10 +1,10 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { serialize } from 'next-mdx-remote/serialize';
-import rehypePrism from '@mapbox/rehype-prism';
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { serialize } from "next-mdx-remote/serialize";
+import rehypePrism from "@mapbox/rehype-prism";
 
-export const POSTS_PATH = path.join(process.cwd(), 'posts');
+export const POSTS_PATH = path.join(process.cwd(), "posts");
 
 export const postFilePaths = fs
     .readdirSync(POSTS_PATH)
@@ -69,7 +69,7 @@ export const getNextPostBySlug = (slug) => {
     // no prev post found
     if (!post) return null;
 
-    const nextPostSlug = post?.filePath.replace(/\.mdx?$/, '');
+    const nextPostSlug = post?.filePath.replace(/\.mdx?$/, "");
 
     return {
         title: post.data.title,
@@ -87,7 +87,7 @@ export const getPreviousPostBySlug = (slug) => {
     // no prev post found
     if (!post) return null;
 
-    const previousPostSlug = post?.filePath.replace(/\.mdx?$/, '');
+    const previousPostSlug = post?.filePath.replace(/\.mdx?$/, "");
 
     return {
         title: post.data.title,
