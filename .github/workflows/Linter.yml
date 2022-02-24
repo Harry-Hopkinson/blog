@@ -18,5 +18,5 @@ jobs:
             - name: Linter
               run: |
                   npm install prettier -g
-                  prettier --config ../../.prettierrc.js  --check "./**/*.ts"
-                  prettier --config ../../.prettierrc.js  --check "./**/*.tsx"
+                  prettier --single-quote false --trailing-comma all --tab-width 4 --print-width 80 --semi true --check "./**/*.ts"
+                  prettier --single-quote false --trailing-comma all --tab-width 4 --print-width 80 --semi true --check "./**/*.tsx"
