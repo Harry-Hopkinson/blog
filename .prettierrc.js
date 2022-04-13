@@ -5,5 +5,3 @@ module.exports = {
     printWidth: 80,
     semi: true,
 };
-
-// npx prettier --config ./.prettierrc.js  --write "./**/*.tsx"
