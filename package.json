@@ -1,44 +1,46 @@
 {
-    "name": "blog",
-    "description": "A Personal Blog of my Coding Adventures.",
-    "author": "Harry-Hopkinson",
-    "contributors": [
-        "Harry Hopkinson"
-    ],
-    "homepage": "https://github.com/Harry-Hopkinson/blog",
-    "bugs": {
-        "url": "https://github.com/Harry-Hopkinson/blog/issues"
-    },
-    "scripts": {
-        "dev": "next",
-        "dev:watch": "next-remote-watch ./posts",
-        "build": "next build",
-        "start": "next start",
-        "export": "next build && next export",
-        "lint": "next lint",
-        "compile": "tsc"
-    },
-    "dependencies": {
-        "@mapbox/rehype-prism": "^0.8.0",
-        "@tailwindcss/typography": "^0.5.0",
-        "classnames": "^2.3.1",
-        "gray-matter": "^4.0.2",
-        "next": "latest",
-        "next-mdx-remote": "^3.0.1",
-        "next-remote-watch": "1.0.0",
-        "prismjs": "^1.25.0",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2"
-    },
-    "devDependencies": {
-        "@types/node": "^17.0.21",
-        "@types/react": "^17.0.39",
-        "autoprefixer": "^10.4.0",
-        "eslint": "<8.0.0",
-        "eslint-config-next": "12.0.10",
-        "eslint-config-prettier": "^8.3.0",
-        "postcss": "^8.4.4",
-        "tailwindcss": "^3.0.0",
-        "typescript": "^4.5.5"
-    }
+  "name": "blog",
+  "description": "A Personal Blog of my Coding Adventures.",
+  "author": "Harry-Hopkinson",
+  "contributors": [
+    "Harry Hopkinson"
+  ],
+  "homepage": "https://github.com/Harry-Hopkinson/blog",
+  "bugs": {
+    "url": "https://github.com/Harry-Hopkinson/blog/issues"
+  },
+  "scripts": {
+    "dev": "next",
+    "dev:watch": "next-remote-watch ./posts",
+    "build": "next build",
+    "start": "next start",
+    "export": "next build && next export",
+    "lint": "next lint",
+    "compile": "tsc",
+    "prettier": "prettier --check .",
+    "force": "prettier --write ."
+  },
+  "dependencies": {
+    "@mapbox/rehype-prism": "^0.8.0",
+    "@tailwindcss/typography": "^0.5.0",
+    "classnames": "^2.3.1",
+    "gray-matter": "^4.0.2",
+    "next": "latest",
+    "next-mdx-remote": "^3.0.1",
+    "next-remote-watch": "1.0.0",
+    "prismjs": "^1.25.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "@types/react": "^17.0.39",
+    "autoprefixer": "^10.4.0",
+    "eslint": "<8.0.0",
+    "eslint-config-next": "12.0.10",
+    "eslint-config-prettier": "^8.3.0",
+    "postcss": "^8.4.4",
+    "tailwindcss": "^3.0.0",
+    "typescript": "^4.5.5"
+  }
 }

@@ -1,22 +1,22 @@
 name: Linter
 
 on:
-    push:
-        branches:
-            - main
-            - master
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [16]
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16]
 
-        steps:
-            - uses: actions/checkout@v2
-            - name: Linter
-              run: |
-                  npm install prettier -g
-                  prettier --check "./**/*.ts"
-                  prettier --check "./**/*.tsx"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Linter
+        run: |
+          npm install prettier -g
+          prettier --check "./**/*.ts"
+          prettier --check "./**/*.tsx"
