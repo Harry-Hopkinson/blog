@@ -18,4 +18,5 @@ jobs:
       - name: Typescript Compiler
         run: |
           yarn
+          yarn build
           yarn compile
